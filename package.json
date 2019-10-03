@@ -9,6 +9,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "storybook": "start-storybook",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -27,5 +28,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.2",
+    "@storybook/react": "^5.2.1",
+    "babel-loader": "^8.0.6",
+    "babel-preset-airbnb": "^4.1.0"
   }
 }
