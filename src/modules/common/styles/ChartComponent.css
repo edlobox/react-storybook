@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Nunito&display=swap');
+
+.containerChart {
+  display: flex;
+  justify-content: center;
+  align-items: left;
+  flex-flow: column;
+  max-width: 740px;
+}
+
+.titleChart {
+  color: #727272;
+  font-family: 'Open Sans';
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 38px;
+}
+
+.headerChart {
+  display: flex;
+  flex-direction: row;
+  place-content: space-between;
+}
+
+.selectOptionChart {
+  height: 4  0px;
+  width: 160px;
+  align-self: center;
+  border: hidden;
+  background-color: inherit;
+  color: #727272;
+  font-family: 'Nunito';
+  font-size: 16px;
+  line-height: 22px;
+  text-align: right;
+}
