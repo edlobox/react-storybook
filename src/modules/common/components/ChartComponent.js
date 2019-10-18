@@ -1,25 +1,72 @@
 import React, { useState } from 'react';
-import { Line, defaults } from 'react-chartjs-2';
+import { Line } from 'react-chartjs-2';
+import annotationPlugin from 'chartjs-plugin-annotation';
 // import PropTypes from 'prop-types';
 import '../styles/ChartComponent.css';
+import sampleData from '../constants/chartSample';
 
-// styles for the Chart
-defaults.global.defaultFontFamily = 'Nunito';
-defaults.global.defaultColor = '#FFF';
-defaults.global.defaultFontColor = '#727272';
-defaults.global.legend.position = 'bottom';
-defaults.global.legend.labels.padding = 40;
-defaults.global.legend.labels.boxWidth = 20;
-defaults.scale.gridLines.display = false;
-defaults.scale.gridLines.drawBorder = false;
-defaults.scatter.scales.yAxes = [{ display: false }];
+// styles options for the Chart
+const options = {
+  layout: {
+    padding: {
+      left: 40,
+      right: 40,
+      top: 40,
+      bottom: 20,
+    },
+  },
+  legend: {
+    display: false,
+  },
+  scales: {
+    yAxes: [{
+      ticks: {
+        beginAtZero: true,
+        suggestedMax: 10,
+        callback: () => '',
+      },
+      gridLines: {
+        display: false,
+        drawBorder: false,
+      },
+    }],
+    xAxes: [{
+      ticks: {
+        fontFamily: 'Nunito',
+        fontColor: '#727272',
+        fontSize: 10,
+      },
+      gridLines: {
+        display: false,
+        drawBorder: false,
+      },
+    }],
+  },
+  plugins: [annotationPlugin],
+  annotation: {
+    annotations: [{
+      type: 'line',
+      mode: 'horizontal',
+      scaleID: 'y-axis-0',
+      value: 5,
+      borderColor: 'rgba(0, 0, 0, 0.4)',
+      borderWidth: 1,
+      label: {
+        enabled: false,
+        content: 'Test label',
+      },
+    }],
+  },
+};
 
 // default months array used for labels in the chart
 const listMonth = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
 
 // the Data configuration for charts
 const dataChart = (propData, monthLabels, lengthArray) => ({
-  labels: monthLabels,
+  labels: propData.mind.length < monthLabels.length
+    ? monthLabels.slice(0, propData.mind.length).reverse()
+    : monthLabels.reverse(),
   datasets: [
     {
       label: 'MIND',
@@ -53,7 +100,7 @@ const dataChart = (propData, monthLabels, lengthArray) => ({
       label: 'PLAY',
       fill: false,
       pointRadius: 0,
-      borderColor: '#5065CB',
+      borderColor: '#FD9184',
       data: propData.play.slice(0, lengthArray).reverse(),
     },
     {
@@ -68,26 +115,22 @@ const dataChart = (propData, monthLabels, lengthArray) => ({
 
 // A helper funcion used to get an array of a category
 // if the array length < expected months, add 0 values in missing months
-const buildCategoryArray = (data, category, lengthArray) => {
+const buildCategoryArray = (data, category) => {
   const wellnessList = [];
   data.map((record) => !!record[category] && wellnessList.push(record[category]));
+  if (wellnessList.length === 1) wellnessList.push(0);
 
-  if (wellnessList.length < lengthArray) {
-    for (let i = wellnessList.length; i < lengthArray; i += 1) {
-      wellnessList.push(0);
-    }
-  }
   return wellnessList;
 };
 
 // A function that return an object of each category with array of values
-const data = ({ propData }, lengthArray) => ({
-  mind: buildCategoryArray(propData, 'mind', lengthArray),
-  body: buildCategoryArray(propData, 'body', lengthArray),
-  soul: buildCategoryArray(propData, 'soul', lengthArray),
-  work: buildCategoryArray(propData, 'work', lengthArray),
-  play: buildCategoryArray(propData, 'play', lengthArray),
-  love: buildCategoryArray(propData, 'love', lengthArray),
+const data = (propData) => ({
+  mind: buildCategoryArray(propData, 'mind'),
+  body: buildCategoryArray(propData, 'body'),
+  soul: buildCategoryArray(propData, 'soul'),
+  work: buildCategoryArray(propData, 'work'),
+  play: buildCategoryArray(propData, 'play'),
+  love: buildCategoryArray(propData, 'love'),
 });
 
 // A function that return a months array from current Month to last 'X' months
@@ -97,16 +140,23 @@ const calculateMonths = (lengthArray) => {
   const ordererMonth = [];
 
   listMonth.forEach((val, index) => {
-    if (currentMonth < index) ordererMonth.push(listMonth[index]);
-    else ordererMonth.push(listMonth[currentMonth - index]);
+    if (currentMonth < index) {
+      ordererMonth.push(listMonth[(listMonth.length - index) + currentMonth]);
+    } else ordererMonth.push(listMonth[currentMonth - index]);
   });
-  return ordererMonth.slice(0, lengthArray).reverse();
+  return ordererMonth.slice(0, lengthArray);
 };
 
-// main functional component exported
-export default function ChartComponent(propData) {
-  const [month, setMonth] = useState(12);
 
+const ColoredLine = ({ color }) => (
+  <hr className="lineChartBody" style={{ backgroundColor: color }} />
+);
+
+// main functional component exported
+export default function ChartComponent({ propData, sample, disable, text }) {
+  console.log(propData);
+  const [month, setMonth] = useState(12);
+  const secData = sample ? sampleData : propData;
   return (
     <div>
       <div className="containerChart">
@@ -118,7 +168,23 @@ export default function ChartComponent(propData) {
             <option value="3">Last 3 Months</option>
           </select>
         </header>
-        <Line data={dataChart(data(propData, month), calculateMonths(month), month)} />
+        <div className="canvasChartContainer">
+          <Line data={dataChart(data(secData), calculateMonths(month), month)} options={options} />
+        </div>
+        <div className="textChartBody">
+          <ColoredLine color="#5065CB" />
+            MIND
+          <ColoredLine color="#CB50C4" />
+            BODY
+          <ColoredLine color="#50ADCB" />
+            SOUL
+          <ColoredLine color="#FFB800" />
+            WORK
+          <ColoredLine color="#FD9184" />
+            PLAY
+          <ColoredLine color="#A0AEF6" />
+            LOVE
+        </div>
       </div>
     </div>
   );

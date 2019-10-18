@@ -7,6 +7,7 @@
   align-items: left;
   flex-flow: column;
   max-width: 740px;
+  margin: 20px;
 }
 
 .titleChart {
@@ -24,8 +25,9 @@
 }
 
 .selectOptionChart {
-  height: 4  0px;
+  height: 30px;
   width: 160px;
+  padding-left: 10px;
   align-self: center;
   border: hidden;
   background-color: inherit;
@@ -34,4 +36,33 @@
   font-size: 16px;
   line-height: 22px;
   text-align: right;
+  -webkit-appearance: none;
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAMAAAD04JH5AAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAAPsAAAD7AFKhtV5AAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAALFQTFRF////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADcidCwAAADp0Uk5TAAEDBAUGCw0PGx4gISstLkBER11fYGFnaWtsk5eYmp2eo6Spq6ytrq+wsbK2zM/d4OPw8vP09vf4/uaZfbgAAAHzSURBVHja7drZTsJQFIXhBXWeBwQF5wlFAUUm1/s/mDeYgPS057RnbzXZ67Jp8/1J26QXBWw2m81ms9lsNpvN9jeW7J8c71a1tOru8cl+Mndg53VKkuP2pga/2R6T5PR1Z3ag0hxxtkFd3q8PvrVRswIAuODcboTvQ/VmXjsHgCMu7Fa0oHq7qB0CG+/UK/jp820dZ6RawZJPnuKaagUpPq/Qo1ZBms8ehlQqSPU5RJc6Bek+u7ikSoHD5yUa1Chw+Wxgra9Q4PT7a8DBp3iB0/88AIAWhQucPlsAgORetsDt38++CWQL8n3ZAh9fssDPlytw+w/J4pkyBf6+TEGIL1EQ5scvCPVjF4T7cQuK+DELivnxCtz+Y5J9ZZyC4n6cgjJ+jIJyfvmCsn7ZgvJ+uYIMf8X/KS5eEMcvXhDLL1rg9tuBfrGCmH6Rgrh+eEFsP7Qgvh9WIOGHFMj4/gVSvm+BnO9X4PafSvs+BbJ+foG0n1cg72cXaPiZBSp+VoGOH14Q2w8teI7uhxVI+CEFMr5/gZTvWyDn+xVI+j4Fsn5+gbSfVyDvZxd0FPysAh3fXaDluwr0/PSCzirwmwW6/nKBtg8kdwvvv7oPoPHxzQ9nf6Nob+tlQpKTl2381pK9Wm0vgc1ms9lsNpvNZrPZ/vW+AEbmqyT8wqAZAAAAAElFTkSuQmCC');
+  background-position: calc(100% - 10px) calc(1em - 7px);
+  background-size: 13px 13px;
+  background-repeat: no-repeat;
+}
+
+.canvasChartContainer{
+  border-radius: 20px;
+  background-color: #FFFFFF;
+  box-shadow: 0 0 32px 0 rgba(4,11,35,0.08);
+}
+
+.textChartBody{
+  display: flex;
+  width: 95%;
+  padding-left: 5px;
+  color: #727272;
+  font-family: 'Nunito';
+  font-size: 10px;
+  letter-spacing: 2px;
+  line-height: 14px;
+  text-align: center;
+  margin-top: 25px;
+}
+.lineChartBody{
+  height: 2px;
+  width: 32px;
+  border: 0;
 }
