@@ -101,9 +101,14 @@ const propData = [
   },
 ];
 
+const dummyText = 'With a partner account, you can be able to see this chart.';
+
 storiesOf('ChartComponent', module)
   .add('Show ChartComponent component with sample data', () => (
     <ChartComponent propData={propData} sample />
+  ))
+  .add('Show ChartComponent component with Blurry effect and a Text sample', () => (
+    <ChartComponent propData={propData} text={dummyText} sample disable />
   ))
   .add('Show ChartComponent component of 12 months', () => (
     <ChartComponent propData={propData} />

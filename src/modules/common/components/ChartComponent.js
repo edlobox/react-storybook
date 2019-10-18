@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import annotationPlugin from 'chartjs-plugin-annotation';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import '../styles/ChartComponent.css';
 import sampleData from '../constants/chartSample';
 
@@ -114,7 +114,7 @@ const dataChart = (propData, monthLabels, lengthArray) => ({
 });
 
 // A helper funcion used to get an array of a category
-// if the array length < expected months, add 0 values in missing months
+// if the array length is 1 month, add 0 values to compare
 const buildCategoryArray = (data, category) => {
   const wellnessList = [];
   data.map((record) => !!record[category] && wellnessList.push(record[category]));
@@ -147,27 +147,39 @@ const calculateMonths = (lengthArray) => {
   return ordererMonth.slice(0, lengthArray);
 };
 
-
 const ColoredLine = ({ color }) => (
   <hr className="lineChartBody" style={{ backgroundColor: color }} />
 );
 
 // main functional component exported
-export default function ChartComponent({ propData, sample, disable, text }) {
-  console.log(propData);
+export default function ChartComponent({
+  propData,
+  sample,
+  disable,
+  text,
+}) {
   const [month, setMonth] = useState(12);
   const secData = sample ? sampleData : propData;
+
   return (
-    <div>
-      <div className="containerChart">
+    <div className="containerChart">
+      { text ? <span className="textDisabledChart">{text}</span> : null}
+      <div className={`${disable ? 'setBlurEffectChart' : ''}`}>
+
         <header className="headerChart">
           <h3 className="titleChart">Wellness Chart</h3>
-          <select className="selectOptionChart" value={month} onChange={(e) => setMonth(e.target.value)}>
+          <select
+            className="selectOptionChart"
+            value={month}
+            onChange={(e) => setMonth(e.target.value)}
+            disabled={disable ? true : null}
+          >
             <option value="12">Last 12 Months</option>
             <option value="6">Last 6 Months</option>
             <option value="3">Last 3 Months</option>
           </select>
         </header>
+
         <div className="canvasChartContainer">
           <Line data={dataChart(data(secData), calculateMonths(month), month)} options={options} />
         </div>
@@ -189,3 +201,26 @@ export default function ChartComponent({ propData, sample, disable, text }) {
     </div>
   );
 }
+
+// The PropTypes for the props received
+ChartComponent.propTypes = {
+  propData: PropTypes.arrayOf(PropTypes.any),
+  sample: PropTypes.bool,
+  disable: PropTypes.bool,
+  text: PropTypes.string,
+};
+
+ChartComponent.defaultProps = {
+  propData: [],
+  sample: false,
+  disable: false,
+  text: null,
+};
+
+ColoredLine.propTypes = {
+  color: PropTypes.string,
+};
+
+ColoredLine.defaultProps = {
+  color: null,
+};
